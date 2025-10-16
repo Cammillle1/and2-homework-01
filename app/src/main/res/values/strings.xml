@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">and-homework-01</string>
-    <string name="nmedia">NMedia!</string>
+    <string name="app_name" translatable="false">NMedia</string>
+    <string name="nmedia" translatable="false">NMedia!</string>
 </resources>
