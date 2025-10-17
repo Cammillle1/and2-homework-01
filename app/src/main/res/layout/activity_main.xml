@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@sample/posts.json/data/authorAvatar" />
+        android:src="@drawable/ic_netology" />
 
     <TextView
         android:id="@+id/author"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="@sample/posts.json/data/author" />
+        android:text="@string/title" />
 
     <TextView
         android:id="@+id/published"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/author"
-        tools:text="@sample/posts.json/data/published" />
+        android:text="@sample/posts.json/data/published" />
 
     <ImageButton
         android:id="@+id/menu"
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier"
-        tools:text="@sample/posts.json/data/content" />
+        android:text="@sample/posts.json/data/content" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_2"
@@ -95,16 +95,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/barrier_2">
 
-        <ImageView
-            android:id="@+id/imLikes"
+        <ImageButton
+            android:id="@+id/like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/likes"
             app:srcCompat="@drawable/ic_like" />
 
         <TextView
-            android:id="@+id/tvLikes"
+            android:id="@+id/likeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -123,15 +124,17 @@
         app:layout_constraintStart_toEndOf="@+id/linearLayout1"
         app:layout_constraintTop_toTopOf="@id/barrier_2">
 
-        <ImageView
-            android:id="@+id/imShare"
+        <ImageButton
+            android:id="@+id/shares"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/shares"
             app:srcCompat="@drawable/ic_share" />
 
         <TextView
-            android:id="@+id/tvShare"
+            android:id="@+id/sharesCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -148,15 +151,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barrier_2">
 
-        <ImageView
-            android:id="@+id/imViews"
+        <ImageButton
+            android:id="@+id/views"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:layout_weight="1"
+            android:contentDescription="@string/views"
             app:srcCompat="@drawable/ic_eye" />
 
         <TextView
-            android:id="@+id/tvViews"
+            android:id="@+id/viewsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
