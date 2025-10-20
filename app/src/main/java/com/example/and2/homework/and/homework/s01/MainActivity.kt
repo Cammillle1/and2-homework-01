@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
             published.text = post.published
             content.text = post.content
             if (post.likedByMe) {
-                like.setImageResource(R.drawable.ic_liked)
+                likes.setImageResource(R.drawable.ic_liked)
             }
-            likeCount.text = post.likes.toString()
+            likesCount.text = post.likes.toString()
             sharesCount.text = post.shares.toString()
             viewsCount.text = post.views.toString()
         }
@@ -53,15 +53,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupLikes(post: Post) {
         with(binding) {
-            like.setOnClickListener {
+            likes.setOnClickListener {
                 post.likedByMe = !post.likedByMe
-                like.setImageResource(
+                likes.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
                 )
                 if (post.likedByMe) post.likes++ else post.likes--
 
                 val newCount = formatNumberShortPrecise(post.likes)
-                likeCount.text = newCount
+                likesCount.text = newCount
             }
         }
     }
