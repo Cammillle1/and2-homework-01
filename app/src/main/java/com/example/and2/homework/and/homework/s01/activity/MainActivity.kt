@@ -20,7 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left + v.paddingLeft,
+                systemBars.top + v.paddingTop,
+                systemBars.right + v.paddingRight,
+                systemBars.bottom + v.paddingBottom
+            )
             insets
         }
 
@@ -31,9 +36,9 @@ class MainActivity : AppCompatActivity() {
                 author.text = getString(post.authorId)
                 published.text = post.published
                 content.text = getString(post.contentId)
-                likesCount.text = post.likes.toString()
-                sharesCount.text = post.shares.toString()
-                viewsCount.text = post.views.toString()
+                likesCount.text = formatNumberShortPrecise(post.likes)
+                sharesCount.text = formatNumberShortPrecise(post.shares)
+                viewsCount.text = formatNumberShortPrecise(post.views)
                 likes.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
                 )
