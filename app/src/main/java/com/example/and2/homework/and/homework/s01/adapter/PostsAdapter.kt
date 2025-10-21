@@ -10,9 +10,11 @@ import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
 
 typealias OnLikeListener = (Post) -> Unit
+typealias OnSharesListener = (Post) -> Unit
 
 class PostsAdapter(
-    private val onLikeListener: OnLikeListener
+    private val onLikeListener: OnLikeListener,
+    private val onSharesListener: OnSharesListener
 ) :
     ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback) {
     override fun onCreateViewHolder(
@@ -20,7 +22,7 @@ class PostsAdapter(
         viewType: Int
     ): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(context = parent.context, binding, onLikeListener)
+        return PostViewHolder(context = parent.context, binding, onLikeListener, onSharesListener)
     }
 
     override fun onBindViewHolder(
@@ -34,7 +36,8 @@ class PostsAdapter(
     class PostViewHolder(
         private val context: Context,
         private val binding: CardPostBinding,
-        private val onLikeListener: OnLikeListener
+        private val onLikeListener: OnLikeListener,
+        private val onSharesListener: OnSharesListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.apply {
@@ -42,11 +45,15 @@ class PostsAdapter(
                 published.text = post.published
                 content.text = context.getString(post.contentId)
                 likeCount.text = post.likes.toString()
+                shareCount.text = post.shares.toString()
                 like.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
                 )
                 like.setOnClickListener {
                     onLikeListener(post)
+                }
+                share.setOnClickListener {
+                    onSharesListener(post)
                 }
             }
         }

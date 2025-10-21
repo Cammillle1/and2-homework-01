@@ -78,8 +78,13 @@ class PostRepositoryImpl : PostRepository {
         data.value = posts
     }
 
-    override fun shares() {
-        TODO("Not yet implemented")
+    override fun sharesById(id: Long) {
+        posts = posts.map {
+            if (it.id != id) it else it.copy(
+                shares = it.shares + 1
+            )
+        }
+        data.value = posts
     }
 
     override fun views() {
