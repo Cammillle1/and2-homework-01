@@ -33,18 +33,17 @@ class MainActivity : AppCompatActivity() {
         setupAdapter()
     }
 
-    private fun setupAdapter() {
-        val adapter = PostsAdapter(
-            onLikeListener = { post ->
-                viewModel.likeById(post.id)
-            },
-            onSharesListener = { post ->
-                viewModel.sharesById(post.id)
-            }
-        )
-        binding.list.adapter = adapter
-        viewModel.data.observe(this) { posts ->
-            adapter.submitList(posts)
+    private fun setupListeners(viewModel: PostViewModel) {
+        binding.likes.setOnClickListener {
+            viewModel.like()
+        }
+
+        binding.shares.setOnClickListener {
+            viewModel.shares()
+        }
+
+        binding.views.setOnClickListener {
+            viewModel.views()
         }
     }
 }
