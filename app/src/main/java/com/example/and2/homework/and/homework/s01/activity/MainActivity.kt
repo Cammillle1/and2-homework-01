@@ -51,26 +51,14 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners(viewModel: PostViewModel) {
         binding.likes.setOnClickListener {
             viewModel.like()
-            viewModel.data.value?.let { it ->
-                val newCount = formatNumberShortPrecise(it.likes)
-                binding.likesCount.text = newCount
-            }
         }
 
         binding.shares.setOnClickListener {
             viewModel.shares()
-            viewModel.data.value?.let { it ->
-                val newCount = formatNumberShortPrecise(it.shares)
-                binding.sharesCount.text = newCount
-            }
         }
 
         binding.views.setOnClickListener {
             viewModel.views()
-            viewModel.data.value?.let { it ->
-                val newCount = formatNumberShortPrecise(it.views)
-                binding.viewsCount.text = newCount
-            }
         }
     }
 }
