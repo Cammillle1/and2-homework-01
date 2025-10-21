@@ -1,4 +1,55 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
-class PostsAdapter {
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.and2.homework.and.homework.s01.R
+import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
+import com.example.and2.homework.and.homework.s01.dto.Post
+
+typealias OnLikeListener = (Post) -> Unit
+
+class PostsAdapter(
+    private val onLikeListener: OnLikeListener
+) :
+    ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PostViewHolder {
+        val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PostViewHolder(context = parent.context, binding, onLikeListener)
+    }
+
+    override fun onBindViewHolder(
+        holder: PostViewHolder,
+        position: Int
+    ) {
+        val post = getItem(position)
+        holder.bind(post)
+    }
+
+    class PostViewHolder(
+        private val context: Context,
+        private val binding: CardPostBinding,
+        private val onLikeListener: OnLikeListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(post: Post) {
+            binding.apply {
+                author.text = context.getString(post.authorId)
+                published.text = post.published
+                content.text = context.getString(post.contentId)
+                likeCount.text = post.likes.toString()
+                like.setImageResource(
+                    if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
+                )
+                like.setOnClickListener {
+                    onLikeListener(post)
+                }
+            }
+        }
+    }
 }
+
