@@ -1,6 +1,7 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.and2.homework.and.homework.s01.R
 import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.util.formatNumberShortPrecise
 
 typealias OnLikeListener = (Post) -> Unit
 typealias OnSharesListener = (Post) -> Unit
@@ -44,8 +46,8 @@ class PostsAdapter(
                 author.text = context.getString(post.authorId)
                 published.text = post.published
                 content.text = context.getString(post.contentId)
-                likeCount.text = post.likes.toString()
-                shareCount.text = post.shares.toString()
+                likeCount.text = formatNumberShortPrecise(post.likes)
+                shareCount.text = formatNumberShortPrecise(post.shares)
                 like.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
                 )
