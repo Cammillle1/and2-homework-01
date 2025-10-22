@@ -26,16 +26,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left + v.paddingLeft,
-                systemBars.top + v.paddingTop,
-                systemBars.right + v.paddingRight,
-                systemBars.bottom + v.paddingBottom
-            )
-            insets
-        }
+
+        applyInsets(binding.root)
         setupAdapter()
         observeViewModel()
         setupListeners()
@@ -103,7 +95,31 @@ class MainActivity : AppCompatActivity() {
                 clearFocus()
                 AndroidUtils.hideKeyboard(this)
             }
+            viewModel.clear()
             binding.close.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun applyInsets(root: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Для клавиатуры:
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val isImeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            /*
+                Установка отступов
+                При повторном использовании у v будут отступы заданные ранее,
+                которые могут уже включать системные отступы,
+                в таком случае добавлять их ещё раз не нужно,
+                так как это приведёт к увеличению отступов
+             */
+            v.setPadding(
+                v.paddingLeft,
+                systemBars.top,
+                v.paddingRight,
+                if (isImeVisible) imeInsets.bottom else systemBars.bottom
+            )
+            insets
         }
     }
 }
