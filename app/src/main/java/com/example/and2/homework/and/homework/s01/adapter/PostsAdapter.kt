@@ -1,7 +1,6 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

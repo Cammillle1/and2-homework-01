@@ -12,7 +12,7 @@ class PostRepositoryImpl : PostRepository {
             authorId = R.string.title,
             contentId = R.string.content,
             published = "23 сентября в 10:12",
-            likes = 1000,
+            likes = 999,
             shares = 10000,
             likedByMe = false
         ),
