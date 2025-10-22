@@ -1,6 +1,7 @@
 package com.example.and2.homework.and.homework.s01.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             if (post.id != 0L) {
                 with(binding.content) {
                     setText(post.content)
+                    binding.close.visibility = View.VISIBLE
                     AndroidUtils.showKeyboard(this)
                 }
             }
@@ -92,7 +94,16 @@ class MainActivity : AppCompatActivity() {
                 setText("")
                 clearFocus()
                 AndroidUtils.hideKeyboard(this)
+                binding.close.visibility = View.INVISIBLE
             }
+        }
+        binding.close.setOnClickListener {
+            binding.content.apply {
+                setText("")
+                clearFocus()
+                AndroidUtils.hideKeyboard(this)
+            }
+            binding.close.visibility = View.INVISIBLE
         }
     }
 }
