@@ -1,8 +1,8 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.and2.homework.and.homework.s01.R
@@ -10,12 +10,9 @@ import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.util.formatNumberShortPrecise
 
-typealias OnLikeListener = (Post) -> Unit
-typealias OnSharesListener = (Post) -> Unit
 
 class PostsAdapter(
-    private val onLikeListener: OnLikeListener,
-    private val onSharesListener: OnSharesListener
+    private val onInteractionListener: OnInteractionListener
 ) :
     ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback) {
     override fun onCreateViewHolder(
@@ -23,7 +20,7 @@ class PostsAdapter(
         viewType: Int
     ): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(context = parent.context, binding, onLikeListener, onSharesListener)
+        return PostViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(
@@ -35,26 +32,44 @@ class PostsAdapter(
     }
 
     class PostViewHolder(
-        private val context: Context,
         private val binding: CardPostBinding,
-        private val onLikeListener: OnLikeListener,
-        private val onSharesListener: OnSharesListener
+        private val onInteractionListener: OnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.apply {
-                author.text = context.getString(post.authorId)
+                author.text = post.author
                 published.text = post.published
-                content.text = context.getString(post.contentId)
+                content.text = post.content
                 likeCount.text = formatNumberShortPrecise(post.likes)
                 shareCount.text = formatNumberShortPrecise(post.shares)
                 like.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
                 )
+                menu.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.remove -> {
+                                    onInteractionListener.onRemove(post)
+                                    true
+                                }
+
+                                R.id.edit -> {
+                                    onInteractionListener.onEdit(post)
+                                    true
+                                }
+
+                                else -> false
+                            }
+                        }
+                    }.show()
+                }
                 like.setOnClickListener {
-                    onLikeListener(post)
+                    onInteractionListener.onLike(post)
                 }
                 share.setOnClickListener {
-                    onSharesListener(post)
+                    onInteractionListener.onShare(post)
                 }
             }
         }
