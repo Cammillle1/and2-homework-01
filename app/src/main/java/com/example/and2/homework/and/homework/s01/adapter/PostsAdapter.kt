@@ -40,11 +40,9 @@ class PostsAdapter(
                 author.text = post.author
                 published.text = post.published
                 content.text = post.content
-                likeCount.text = formatNumberShortPrecise(post.likes)
-                shareCount.text = formatNumberShortPrecise(post.shares)
-                like.setImageResource(
-                    if (post.likedByMe) R.drawable.ic_liked else R.drawable.ic_like
-                )
+                like.isChecked = post.likedByMe
+                like.text = formatNumberShortPrecise(post.likes)
+                share.text = formatNumberShortPrecise(post.shares)
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.options_post)
