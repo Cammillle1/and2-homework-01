@@ -38,7 +38,5 @@ class NewPostActivity : AppCompatActivity() {
             }
             finish()
         }
-
-
     }
 }
