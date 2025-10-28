@@ -21,7 +21,7 @@ class PostViewModel : ViewModel() {
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
 
-    fun save(content: String) {
+    fun savePost(content: String) {
         edited.value?.let {
             val text = content.trim()
             if (it.content != text) {

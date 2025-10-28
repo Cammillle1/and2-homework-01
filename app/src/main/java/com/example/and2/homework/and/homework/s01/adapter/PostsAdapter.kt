@@ -10,7 +10,6 @@ import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.util.formatNumberShortPrecise
 
-
 class PostsAdapter(
     private val onInteractionListener: OnInteractionListener
 ) :
