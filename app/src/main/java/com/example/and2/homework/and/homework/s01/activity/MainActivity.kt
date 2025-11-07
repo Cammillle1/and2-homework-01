@@ -25,12 +25,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-
         applyInsets(binding.root)
-        setupAdapter()
-        observeViewModel()
 
         val newPostLauncher = registerForActivityResult(NewPostResultContract) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.savePost(result)
+        }
+
+        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
             result ?: return@registerForActivityResult
             viewModel.savePost(result)
         }
@@ -38,12 +40,18 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             newPostLauncher.launch(Unit)
         }
-
-        //setupListeners()
+        setupAdapter(
+            onEdit = { content ->
+                editPostLauncher.launch(content)
+            }
+        )
+        observeViewModel()
     }
 
 
-    private fun setupAdapter() {
+    private fun setupAdapter(
+        onEdit: (content: String) -> Unit
+    ) {
         adapter = PostsAdapter(object : OnInteractionListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
@@ -51,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                onEdit(post.content)
             }
 
             override fun onRemove(post: Post) {
@@ -76,45 +85,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
-//        viewModel.edited.observe(this) { post ->
-//            if (post.id != 0L) {
-//                with(binding.content) {
-//                    setText(post.content)
-//                    binding.close.visibility = View.VISIBLE
-//                    AndroidUtils.showKeyboard(this)
-//                }
-//            }
-//        }
     }
-
-//    private fun setupListeners() {
-//        binding.save.setOnClickListener {
-//            with(binding.content) {
-//                if (text.isNullOrBlank()) {
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        context.getString(R.string.error_empty_content),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//                viewModel.save(text.toString())
-//                setText("")
-//                clearFocus()
-//                AndroidUtils.hideKeyboard(this)
-//                binding.close.visibility = View.INVISIBLE
-//            }
-//        }
-//        binding.close.setOnClickListener {
-//            binding.content.apply {
-//                setText("")
-//                clearFocus()
-//                AndroidUtils.hideKeyboard(this)
-//            }
-//            viewModel.clear()
-//            binding.close.visibility = View.INVISIBLE
-//        }
-//    }
 
     private fun applyInsets(root: View) {
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
