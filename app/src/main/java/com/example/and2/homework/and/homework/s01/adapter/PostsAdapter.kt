@@ -1,6 +1,7 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
@@ -38,10 +39,23 @@ class PostsAdapter(
             binding.apply {
                 author.text = post.author
                 published.text = post.published
-                content.text = post.content
                 like.isChecked = post.likedByMe
                 like.text = formatNumberShortPrecise(post.likes)
                 share.text = formatNumberShortPrecise(post.shares)
+
+                if (post.videoUrl != null) {
+                    videoPic.visibility = View.VISIBLE
+                    playButton.visibility = View.VISIBLE
+                    playButton.setOnClickListener {
+                        onInteractionListener.onClick(post)
+                    }
+                } else {
+                    videoPic.visibility = View.GONE
+                    playButton.visibility = View.GONE
+                    content.visibility = View.VISIBLE
+                    content.text = post.content
+                }
+
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.options_post)

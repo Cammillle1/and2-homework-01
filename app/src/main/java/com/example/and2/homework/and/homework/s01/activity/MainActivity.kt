@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.and2.homework.and.homework.s01.R
@@ -33,8 +34,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.savePost(result)
+            result?.let {
+                viewModel.savePost(result)
+            } ?: viewModel.clear()
         }
 
         binding.fab.setOnClickListener {
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         setupAdapter(
             onEdit = { content ->
                 editPostLauncher.launch(content)
-            }
+            },
         )
         observeViewModel()
     }
@@ -77,6 +79,16 @@ class MainActivity : AppCompatActivity() {
 
                 startActivity(shareIntent)
             }
+
+            override fun onClick(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = post.videoUrl!!.toUri()
+                }
+                //val shareIntent = Intent.createChooser(intent, "Play Video")
+                startActivity(intent)
+            }
+
         })
         binding.list.adapter = adapter
     }
