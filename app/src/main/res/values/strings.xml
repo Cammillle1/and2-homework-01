@@ -21,4 +21,7 @@
     <string name="post_text" translatable="false">Post Text</string>
     <string name="menu_edit" translatable="false">Edit</string>
     <string name="error_empty_content" translatable="false">Content can\'t be empty</string>
+    <string name="chooser_share_post" translatable="false">Share post</string>
+    <string name="add_post" translatable="false">Add post</string>
+    <string name="save" translatable="false">Save</string>
 </resources>

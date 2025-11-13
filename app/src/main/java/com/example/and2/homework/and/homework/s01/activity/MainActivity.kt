@@ -1,8 +1,8 @@
 package com.example.and2.homework.and.homework.s01.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,6 @@ import com.example.and2.homework.and.homework.s01.adapter.OnInteractionListener
 import com.example.and2.homework.and.homework.s01.adapter.PostsAdapter
 import com.example.and2.homework.and.homework.s01.databinding.ActivityMainBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
-import com.example.and2.homework.and.homework.s01.util.AndroidUtils
 import com.example.and2.homework.and.homework.s01.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -26,15 +25,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-
         applyInsets(binding.root)
-        setupAdapter()
+
+        val newPostLauncher = registerForActivityResult(NewPostResultContract) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.savePost(result)
+        }
+
+        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.savePost(result)
+        }
+
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch(Unit)
+        }
+        setupAdapter(
+            onEdit = { content ->
+                editPostLauncher.launch(content)
+            }
+        )
         observeViewModel()
-        setupListeners()
     }
 
 
-    private fun setupAdapter() {
+    private fun setupAdapter(
+        onEdit: (content: String) -> Unit
+    ) {
         adapter = PostsAdapter(object : OnInteractionListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
@@ -42,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                onEdit(post.content)
             }
 
             override fun onRemove(post: Post) {
@@ -49,54 +67,23 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onShare(post: Post) {
-                viewModel.sharesById(post.id)
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
+
+                startActivity(shareIntent)
             }
         })
         binding.list.adapter = adapter
-
     }
 
     private fun observeViewModel() {
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
-        }
-        viewModel.edited.observe(this) { post ->
-            if (post.id != 0L) {
-                with(binding.content) {
-                    setText(post.content)
-                    binding.close.visibility = View.VISIBLE
-                    AndroidUtils.showKeyboard(this)
-                }
-            }
-        }
-    }
-
-    private fun setupListeners() {
-        binding.save.setOnClickListener {
-            with(binding.content) {
-                if (text.isNullOrBlank()) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        context.getString(R.string.error_empty_content),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-                viewModel.save(text.toString())
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.close.visibility = View.INVISIBLE
-            }
-        }
-        binding.close.setOnClickListener {
-            binding.content.apply {
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-            }
-            viewModel.clear()
-            binding.close.visibility = View.INVISIBLE
         }
     }
 
