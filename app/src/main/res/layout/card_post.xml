@@ -64,6 +64,31 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar,published,menu" />
 
+    <ImageView
+        android:id="@+id/video_pic"
+        android:layout_width="0dp"
+        android:layout_height="248dp"
+        android:contentDescription="pic"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="image_button"
+        android:background="?attr/selectableItemBackground"
+        android:focusable="true"
+        android:src="@drawable/sharp_play_circle_outline_24"
+        app:layout_constraintBottom_toBottomOf="@id/video_pic"
+        app:layout_constraintEnd_toEndOf="@id/video_pic"
+        app:layout_constraintStart_toStartOf="@id/video_pic"
+        app:layout_constraintTop_toTopOf="@id/video_pic" />
+
     <TextView
         android:id="@+id/content"
         android:layout_width="0dp"
@@ -75,35 +100,8 @@
         app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintTop_toBottomOf="@id/video_pic"
         tools:text="@sample/posts.json/data/content" />
-
-    <ImageView
-        android:id="@+id/video_pic"
-        android:layout_width="match_parent"
-        android:layout_height="248dp"
-        android:scaleType="center"
-        android:visibility="invisible"
-        android:src="@drawable/pic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toTopOf="@id/footer"
-        />
-
-    <ImageButton
-        android:id="@+id/play_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:background= "@android:color/transparent"
-        android:src="@drawable/sharp_play_circle_outline_24"
-        app:layout_constraintBottom_toBottomOf="@+id/content"
-        app:layout_constraintEnd_toEndOf="@+id/video_pic"
-        app:layout_constraintStart_toStartOf="@+id/content"
-        app:layout_constraintTop_toTopOf="@+id/content" />
-
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/footer"

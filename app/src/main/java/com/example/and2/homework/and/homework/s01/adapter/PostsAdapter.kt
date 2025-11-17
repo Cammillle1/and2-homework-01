@@ -42,7 +42,7 @@ class PostsAdapter(
                 like.isChecked = post.likedByMe
                 like.text = formatNumberShortPrecise(post.likes)
                 share.text = formatNumberShortPrecise(post.shares)
-
+                content.text = post.content
                 if (post.videoUrl != null) {
                     videoPic.visibility = View.VISIBLE
                     playButton.visibility = View.VISIBLE
@@ -52,8 +52,6 @@ class PostsAdapter(
                 } else {
                     videoPic.visibility = View.GONE
                     playButton.visibility = View.GONE
-                    content.visibility = View.VISIBLE
-                    content.text = post.content
                 }
 
                 menu.setOnClickListener {
