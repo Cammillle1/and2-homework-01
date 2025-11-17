@@ -1,9 +1,11 @@
 package com.example.and2.homework.and.homework.s01.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.repository.PostRepository
+import com.example.and2.homework.and.homework.s01.repository.PostRepositoryFileImpl
 import com.example.and2.homework.and.homework.s01.repository.PostRepositoryImpl
 
 private val empty = Post(
@@ -15,9 +17,9 @@ private val empty = Post(
     likedByMe = false
 )
 
-class PostViewModel : ViewModel() {
+class PostViewModel(app: Application) : AndroidViewModel(app) {
     // упрощённый вариант
-    private val repository: PostRepository = PostRepositoryImpl()
+    private val repository: PostRepository = PostRepositoryFileImpl(app)
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
 
@@ -28,10 +30,10 @@ class PostViewModel : ViewModel() {
                 repository.save(it.copy(content = text))
             }
         }
-        edited.value = empty
+        clear()
     }
 
-    fun clear(){
+    fun clear() {
         edited.value = empty
     }
 
