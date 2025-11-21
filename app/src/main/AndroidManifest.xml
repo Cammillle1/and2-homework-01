@@ -16,10 +16,10 @@
             android:name=".activity.IntentHandlerActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.NewPostActivity"
+            android:name=".fragment.NewPostFragment"
             android:exported="false" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".fragment.FeedFragment"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

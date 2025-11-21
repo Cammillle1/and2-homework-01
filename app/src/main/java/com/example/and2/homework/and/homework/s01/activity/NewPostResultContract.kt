@@ -4,13 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
+import com.example.and2.homework.and.homework.s01.fragment.NewPostFragment
 
 object NewPostResultContract : ActivityResultContract<Unit, String?>() {
     override fun createIntent(
         context: Context,
         input: Unit
     ): Intent {
-        return Intent(context, NewPostActivity::class.java)
+        return Intent(context, NewPostFragment::class.java)
     }
 
     override fun parseResult(

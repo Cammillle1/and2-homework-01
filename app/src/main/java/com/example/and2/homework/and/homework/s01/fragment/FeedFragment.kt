@@ -1,31 +1,35 @@
-package com.example.and2.homework.and.homework.s01.activity
+package com.example.and2.homework.and.homework.s01.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.and2.homework.and.homework.s01.R
+import com.example.and2.homework.and.homework.s01.activity.EditPostResultContract
+import com.example.and2.homework.and.homework.s01.activity.NewPostResultContract
 import com.example.and2.homework.and.homework.s01.adapter.OnInteractionListener
 import com.example.and2.homework.and.homework.s01.adapter.PostsAdapter
-import com.example.and2.homework.and.homework.s01.databinding.ActivityMainBinding
+import com.example.and2.homework.and.homework.s01.databinding.FragmentFeedBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.viewmodel.PostViewModel
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class FeedFragment : Fragment() {
     private val viewModel by viewModels<PostViewModel>()
     private lateinit var adapter: PostsAdapter
+    private lateinit var binding: FragmentFeedBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
         applyInsets(binding.root)
 
         val newPostLauncher = registerForActivityResult(NewPostResultContract) { result ->
@@ -48,8 +52,8 @@ class MainActivity : AppCompatActivity() {
             },
         )
         observeViewModel()
+        return binding.root
     }
-
 
     private fun setupAdapter(
         onEdit: (content: String) -> Unit
@@ -94,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
     }
@@ -122,8 +126,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-
-
-
-
