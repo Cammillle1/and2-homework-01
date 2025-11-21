@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.and2.homework.and.homework.s01.R
 import com.example.and2.homework.and.homework.s01.activity.EditPostResultContract
-import com.example.and2.homework.and.homework.s01.activity.NewPostResultContract
 import com.example.and2.homework.and.homework.s01.adapter.OnInteractionListener
 import com.example.and2.homework.and.homework.s01.adapter.PostsAdapter
 import com.example.and2.homework.and.homework.s01.databinding.FragmentFeedBinding
@@ -20,7 +18,7 @@ import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
-    private val viewModel by viewModels<PostViewModel>()
+    private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
     private lateinit var adapter: PostsAdapter
     private lateinit var binding: FragmentFeedBinding
 
@@ -28,14 +26,8 @@ class FeedFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
-        applyInsets(binding.root)
-
-        val newPostLauncher = registerForActivityResult(NewPostResultContract) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.savePost(result)
-        }
 
         val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
             result?.let {
@@ -44,7 +36,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener {
-            newPostLauncher.launch(Unit)
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
         setupAdapter(
             onEdit = { content ->
@@ -89,7 +81,6 @@ class FeedFragment : Fragment() {
                     action = Intent.ACTION_VIEW
                     data = post.videoUrl!!.toUri()
                 }
-                //val shareIntent = Intent.createChooser(intent, "Play Video")
                 startActivity(intent)
             }
 
@@ -100,29 +91,6 @@ class FeedFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
-        }
-    }
-
-    private fun applyInsets(root: View) {
-        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Для клавиатуры:
-            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
-            val isImeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-            /*
-                Установка отступов
-                При повторном использовании у v будут отступы заданные ранее,
-                которые могут уже включать системные отступы,
-                в таком случае добавлять их ещё раз не нужно,
-                так как это приведёт к увеличению отступов
-             */
-            v.setPadding(
-                v.paddingLeft,
-                systemBars.top,
-                v.paddingRight,
-                if (isImeVisible) imeInsets.bottom else systemBars.bottom
-            )
-            insets
         }
     }
 }
