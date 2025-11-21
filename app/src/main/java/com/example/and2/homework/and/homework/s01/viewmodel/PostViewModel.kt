@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.and2.homework.and.homework.s01.dto.Post
 import com.example.and2.homework.and.homework.s01.repository.PostRepository
 import com.example.and2.homework.and.homework.s01.repository.PostRepositoryFileImpl
-import com.example.and2.homework.and.homework.s01.repository.PostRepositoryImpl
 
 private val empty = Post(
     id = 0,
@@ -21,7 +20,7 @@ class PostViewModel(app: Application) : AndroidViewModel(app) {
     // упрощённый вариант
     private val repository: PostRepository = PostRepositoryFileImpl(app)
     val data = repository.getAll()
-    val edited = MutableLiveData(empty)
+    private val edited = MutableLiveData(empty)
 
     fun savePost(content: String) {
         edited.value?.let {
@@ -33,7 +32,7 @@ class PostViewModel(app: Application) : AndroidViewModel(app) {
         clear()
     }
 
-    fun clear() {
+    private fun clear() {
         edited.value = empty
     }
 

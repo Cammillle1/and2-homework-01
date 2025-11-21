@@ -47,7 +47,7 @@ class PostsAdapter(
                     videoPic.visibility = View.VISIBLE
                     playButton.visibility = View.VISIBLE
                     playButton.setOnClickListener {
-                        onInteractionListener.onClick(post)
+                        onInteractionListener.onVideoClick(post)
                     }
                 } else {
                     videoPic.visibility = View.GONE

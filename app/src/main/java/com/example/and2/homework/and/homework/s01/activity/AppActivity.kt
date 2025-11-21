@@ -42,6 +42,7 @@ class AppActivity : AppCompatActivity() {
             }
 
             intent.removeExtra(Intent.EXTRA_TEXT)
+
             findNavController(R.id.nav_host_fragment).navigate(
                 R.id.action_feedFragment_to_newPostFragment,
                 Bundle().apply {

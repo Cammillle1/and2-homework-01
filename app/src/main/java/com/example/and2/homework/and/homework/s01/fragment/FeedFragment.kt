@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.and2.homework.and.homework.s01.R
-import com.example.and2.homework.and.homework.s01.activity.EditPostResultContract
 import com.example.and2.homework.and.homework.s01.adapter.OnInteractionListener
 import com.example.and2.homework.and.homework.s01.adapter.PostsAdapter
 import com.example.and2.homework.and.homework.s01.databinding.FragmentFeedBinding
 import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.fragment.NewPostFragment.Companion.textArg
 import com.example.and2.homework.and.homework.s01.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -23,24 +23,20 @@ class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
-
-        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-            result?.let {
-                viewModel.savePost(result)
-            } ?: viewModel.clear()
-        }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
         setupAdapter(
             onEdit = { content ->
-                editPostLauncher.launch(content)
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_editPostFragment,
+                    Bundle().apply {
+                        textArg = content
+                    })
             },
         )
         observeViewModel()
@@ -76,7 +72,7 @@ class FeedFragment : Fragment() {
                 startActivity(shareIntent)
             }
 
-            override fun onClick(post: Post) {
+            override fun onVideoClick(post: Post) {
                 val intent = Intent().apply {
                     action = Intent.ACTION_VIEW
                     data = post.videoUrl!!.toUri()
