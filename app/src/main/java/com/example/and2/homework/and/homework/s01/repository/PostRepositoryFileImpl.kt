@@ -3,7 +3,7 @@ package com.example.and2.homework.and.homework.s01.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

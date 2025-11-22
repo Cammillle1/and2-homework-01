@@ -5,14 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NewPostActivity">
+    tools:context=".fragment.NewPostFragment">
 
     <EditText
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:paddingTop="8.dp"
         android:gravity="start|top"
         android:inputType="textMultiLine" />
 

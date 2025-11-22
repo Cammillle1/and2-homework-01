@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.and2.homework.and.homework.s01.R
 import com.example.and2.homework.and.homework.s01.databinding.CardPostBinding
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 import com.example.and2.homework.and.homework.s01.util.formatNumberShortPrecise
 
 class PostsAdapter(
@@ -47,11 +47,15 @@ class PostsAdapter(
                     videoPic.visibility = View.VISIBLE
                     playButton.visibility = View.VISIBLE
                     playButton.setOnClickListener {
-                        onInteractionListener.onClick(post)
+                        onInteractionListener.onVideoClick(post)
                     }
                 } else {
                     videoPic.visibility = View.GONE
                     playButton.visibility = View.GONE
+                }
+
+                root.setOnClickListener {
+                    onInteractionListener.onPostClick(post)
                 }
 
                 menu.setOnClickListener {
