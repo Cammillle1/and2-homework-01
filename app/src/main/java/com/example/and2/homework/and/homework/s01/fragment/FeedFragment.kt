@@ -2,6 +2,7 @@ package com.example.and2.homework.and.homework.s01.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,8 @@ import com.example.and2.homework.and.homework.s01.R
 import com.example.and2.homework.and.homework.s01.adapter.OnInteractionListener
 import com.example.and2.homework.and.homework.s01.adapter.PostsAdapter
 import com.example.and2.homework.and.homework.s01.databinding.FragmentFeedBinding
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.fragment.DetailsPostFragment.Companion.post
+import com.example.and2.homework.and.homework.s01.model.Post
 import com.example.and2.homework.and.homework.s01.fragment.NewPostFragment.Companion.textArg
 import com.example.and2.homework.and.homework.s01.viewmodel.PostViewModel
 
@@ -33,9 +35,14 @@ class FeedFragment : Fragment() {
         setupAdapter(
             onEdit = { content ->
                 findNavController().navigate(
-                    R.id.action_feedFragment_to_editPostFragment,
-                    Bundle().apply {
+                    R.id.action_feedFragment_to_editPostFragment, Bundle().apply {
                         textArg = content
+                    })
+            },
+            onPostClick = {
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_detailsPostFragment, Bundle().apply {
+                        post = it
                     })
             },
         )
@@ -44,7 +51,7 @@ class FeedFragment : Fragment() {
     }
 
     private fun setupAdapter(
-        onEdit: (content: String) -> Unit
+        onEdit: (content: String) -> Unit, onPostClick: (post: Post) -> Unit
     ) {
         adapter = PostsAdapter(object : OnInteractionListener {
             override fun onLike(post: Post) {
@@ -78,6 +85,11 @@ class FeedFragment : Fragment() {
                     data = post.videoUrl!!.toUri()
                 }
                 startActivity(intent)
+            }
+
+            override fun onPostClick(post: Post) {
+                Log.d("FeedFragment","Click")
+                onPostClick(post)
             }
 
         })

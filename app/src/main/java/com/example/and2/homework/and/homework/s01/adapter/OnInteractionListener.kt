@@ -1,6 +1,6 @@
 package com.example.and2.homework.and.homework.s01.adapter
 
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 
 interface OnInteractionListener {
     fun onLike(post: Post)
@@ -8,4 +8,5 @@ interface OnInteractionListener {
     fun onRemove(post: Post)
     fun onShare(post: Post)
     fun onVideoClick(post: Post)
+    fun onPostClick(post: Post)
 }

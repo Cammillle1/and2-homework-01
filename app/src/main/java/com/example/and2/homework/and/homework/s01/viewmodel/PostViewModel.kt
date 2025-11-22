@@ -3,7 +3,7 @@ package com.example.and2.homework.and.homework.s01.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 import com.example.and2.homework.and.homework.s01.repository.PostRepository
 import com.example.and2.homework.and.homework.s01.repository.PostRepositoryFileImpl
 

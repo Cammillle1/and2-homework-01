@@ -2,8 +2,7 @@ package com.example.and2.homework.and.homework.s01.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.and2.homework.and.homework.s01.R
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 
 class PostRepositoryImpl : PostRepository {
     private var nextId = 1L

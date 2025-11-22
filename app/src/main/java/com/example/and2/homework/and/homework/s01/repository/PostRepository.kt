@@ -1,7 +1,7 @@
 package com.example.and2.homework.and.homework.s01.repository
 
 import androidx.lifecycle.LiveData
-import com.example.and2.homework.and.homework.s01.dto.Post
+import com.example.and2.homework.and.homework.s01.model.Post
 
 interface PostRepository {
     fun getAll(): LiveData<List<Post>>

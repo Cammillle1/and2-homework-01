@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_feedFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_detailsPostFragment"
+            app:destination="@id/detailsPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
@@ -26,4 +29,12 @@
         android:id="@+id/editPostFragment"
         android:name="com.example.and2.homework.and.homework.s01.fragment.EditPostFragment"
         android:label="EditPostFragment" />
+    <fragment
+        android:id="@+id/detailsPostFragment"
+        android:name="com.example.and2.homework.and.homework.s01.fragment.DetailsPostFragment"
+        android:label="DetailsPostFragment" >
+        <action
+            android:id="@+id/action_detailsPostFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+    </fragment>
 </navigation>

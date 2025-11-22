@@ -1,5 +1,9 @@
-package com.example.and2.homework.and.homework.s01.dto
+package com.example.and2.homework.and.homework.s01.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Post(
     val id: Long,
     val author: String,
@@ -10,4 +14,4 @@ data class Post(
     val shares: Long = 0,
     val views: Long = 0,
     val likedByMe: Boolean = false
-)
+):Parcelable
