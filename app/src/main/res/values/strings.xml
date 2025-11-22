@@ -24,6 +24,5 @@
     <string name="chooser_share_post" translatable="false">Share post</string>
     <string name="add_post" translatable="false">Add post</string>
     <string name="save" translatable="false">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>
