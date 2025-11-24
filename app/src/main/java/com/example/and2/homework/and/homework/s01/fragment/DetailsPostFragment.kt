@@ -121,8 +121,26 @@ class DetailsPostFragment : Fragment() {
                     onInteractionListener.onShare(post)
                 }
             }
+            observeViewModel(post.id)
         }
         return binding.root
+    }
+
+    private fun observeViewModel(postId: Long) {
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
+            val post = posts.find { it.id == postId }
+            post?.let {
+                binding.apply {
+                    author.text = post.author
+                    published.text = post.published
+                    like.isChecked = post.likedByMe
+                    like.text = formatNumberShortPrecise(post.likes)
+                    share.text = formatNumberShortPrecise(post.shares)
+                    content.text = post.content
+                }
+            }
+
+        }
     }
 
     companion object {
